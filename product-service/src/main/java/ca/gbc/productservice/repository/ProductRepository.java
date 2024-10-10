@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends MongoRepository<Product, String> {
-    List<Product> findAll(); // This is automatically provided by MongoRepository, but you can declare it explicitly if needed.
+    List<Product> findAll();
 }

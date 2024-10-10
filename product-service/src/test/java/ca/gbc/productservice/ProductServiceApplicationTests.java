@@ -1,8 +1,7 @@
 package ca.gbc.productservice;
 
-import ca.gbc.productservice.model.Product;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,54 +12,81 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.math.BigDecimal;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 public class ProductServiceApplicationTests {
 
-	// Define the MongoDB container
 	@Container
 	public static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:6.0.5");
 
-	// Inject the random port used by the Spring Boot application
 	@Value("${local.server.port}")
 	private int port;
 
-	// Set dynamic properties for MongoDB TestContainer
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry registry) {
 		registry.add("spring.data.mongodb.uri", mongoDBContainer::getReplicaSetUrl);
 	}
 
-	// Configure RestAssured before each test
 	@BeforeEach
 	public void setUp() {
 		RestAssured.port = port;
 	}
 
-	// Sample Product creation method
-	private Product createProduct() {
-		return new Product("123", "Test Product", "This is a test product", new BigDecimal("10.99"));
-	}
-
-	// POST request integration test for creating a product
 	@Test
-	void shouldCreateProduct() {
-		Product productRequest = createProduct();
-
-		// Perform POST request using RestAssured and verify the response
-		given()
-				.contentType(ContentType.JSON)
-				.body(productRequest)
+	void postProductsTest(){
+		String requestBody = """
+					{
+						"name":"iPhone",
+						"description":"14 Pro",
+						"price":1000
+					}
+				""";
+		RestAssured.given()
+				.contentType("application/json")
+				.body(requestBody)
 				.when()
 				.post("/api/product")
 				.then()
-				.statusCode(201) // HTTP 201 Created
-				.body("name", is(productRequest.getName()))
-				.body("price", is(productRequest.getPrice().floatValue())); // Handling BigDecimal
+				.log().all()
+				.statusCode(201)
+				.body("id", Matchers.notNullValue())
+				.body("name", Matchers.equalTo("iPhone"))
+				.body("description", Matchers.equalTo("14 Pro"))
+				.body("price", Matchers.equalTo(1000));
+	}
+
+	@Test
+	void getProductsTest(){
+		String requestBody = """
+					{
+						"name":"iPhone",
+						"description":"15 Pro",
+						"price":1100
+					}
+				""";
+		RestAssured.given()
+				.contentType("application/json")
+				.body(requestBody)
+				.when()
+				.post("/api/product")
+				.then()
+				.log().all()
+				.statusCode(201)
+				.body("id", Matchers.notNullValue())
+				.body("name", Matchers.equalTo("iPhone"))
+				.body("description", Matchers.equalTo("15 Pro"))
+				.body("price", Matchers.equalTo(1100));
+
+		RestAssured.given()
+				.contentType("application/json")
+				.when()
+				.get("/api/product")
+				.then()
+				.log().all()
+				.statusCode(200)
+				.body("size()",Matchers.greaterThan(0))
+				.body("[0].name",Matchers.equalTo("iPhone"))
+				.body("[0].description",Matchers.equalTo("15 Pro"))
+				.body("[0].price",Matchers.equalTo(1100));
 	}
 }
