@@ -1,4 +1,4 @@
-FROM gradle:8-jdk22-alpine AS builder
+FROM gradle:8-jdk23-alpine as builder
 COPY --chown=gradle:gradle . /home/gradle/src
 
 WORKDIR /home/gradle/src
@@ -13,6 +13,6 @@ COPY --from=builder /home/gradle/src/build/libs/*.jar /app/product-service.jar
 ENV MONGO_DB_USERNAME=admin \
     MONGO_DB_PWD=password
 
-EXPOSE 8084
+EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "/app/product-service.jar"]

@@ -5,20 +5,13 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Gradle/gradle-8.10.1" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/order-service" />
             <option value="$PROJECT_DIR$/product-service" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/product-service" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/product-service" />
-            <option value="$PROJECT_DIR$/product-service/product-service" />
           </set>
         </option>
       </GradleProjectSettings>
