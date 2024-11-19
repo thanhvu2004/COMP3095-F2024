@@ -4,7 +4,7 @@ COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build -x test
 
-FROM openjdk:22-jdk
+FROM openjdk:23-jdk
 
 RUN mkdir /app
 
