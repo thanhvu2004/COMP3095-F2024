@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  postgres:
+  postgres-inventory:
     image: postgres
     ports:
       - "5434:5432"
@@ -14,17 +14,17 @@ services:
       - ./data/inventory:/var/lib/postgresql/data
       - ./init/inventory/init.sql:/docker-entrypoint-initdb.d/init.sql
 
-#  postgres:
-#    image: postgres
-#    ports:
-#      - "5432:5432"
-#    container_name: postgres-single
-#    environment:
-#      - POSTGRES_USER=admin
-#      - POSTGRES_PASSWORD=password
-#    volumes:
-#      - ./data/order:/var/lib/postgresql/data
-#      - ./init/order/init.sql:/docker-entrypoint-initdb.d/init.sql
+  postgres-order:
+    image: postgres
+    ports:
+      - "5432:5432"
+    container_name: postgres-order
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./data/order:/var/lib/postgresql/data
+      - ./init/order/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   pgadmin:
     image: dpage/pgadmin4
