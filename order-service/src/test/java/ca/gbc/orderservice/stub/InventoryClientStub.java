@@ -4,8 +4,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class InventoryClientStub {
     public static void stubInventoryCall(String skuCode, Integer quantity) {
-        // stub the inventory call
-        stubFor(get(urlEqualTo("/api/inventory?skuCode=" + skuCode + "&quantity=" + quantity))
+        stubFor(get(urlPathEqualTo("/api/inventory"))
+                .withQueryParam("skuCode", equalTo(skuCode))
+                .withQueryParam("quantity", equalTo(quantity.toString()))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
                         .withStatus(200)
