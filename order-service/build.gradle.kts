@@ -36,7 +36,6 @@ dependencies {
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.flywaydb:flyway-database-postgresql")
 
-	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 	implementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
 
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
