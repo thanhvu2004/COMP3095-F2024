@@ -10,7 +10,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 @Configuration
 public class RestClientConfig {
-    @Value("${services.inventory-url}")
+    @Value("${inventory.service.url}")
     private String inventoryServiceUrl;
 
     @Bean
