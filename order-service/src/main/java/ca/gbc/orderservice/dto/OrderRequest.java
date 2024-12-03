@@ -9,4 +9,6 @@ public record OrderRequest(
         BigDecimal price,
         Integer quantity
 ) {
+    public record UserDetails(String email, String firstName, String lastName) {
+    }
 }
