@@ -31,6 +31,13 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+//    @GetMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<ProductResponse> getAllProducts() throws InterruptedException {
+//        Thread.sleep(5000); // Simulate a delay of 5 seconds
+//        return productService.getAllProducts();
+//    }
+
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> updateProduct(@PathVariable String id, @RequestBody ProductRequest productRequest) {
